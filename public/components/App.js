@@ -1,10 +1,10 @@
 import React from 'react';
-import Greet from './Greet';
+import TwitterContainer from './Twitter_Container';
 import * as styles from '../css/styles.scss';
 
 const App = () => (
   <div>
-    <Greet />
+    <TwitterContainer />
   </div>
 );
 

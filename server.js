@@ -1,8 +1,44 @@
-import express from 'express';
+const Twitter = require('twitter');
+const express = require('express');
 
-let app = express();
+const app = express();
 
-app.use(express.static('public'));
+const client = new Twitter({
+	consumer_key: 'fx95oKhMHYgytSBmiAqQ',
+	consumer_secret: '0zfaijLMWMYTwVosdqFTL3k58JhRjZNxd2q0i9cltls',
+	access_token_key: '2305278770-GGw8dQQg3o5Vqfx9xHpUgJ0CDUe3BoNmUNeWZBg',
+	access_token_secret: 'iEzxeJjEPnyODVcoDYt5MVvrg90Jx2TOetGdNeol6PeYp',
+});
 
-app.listen(3000);
-console.log('Node server started on port 3000');
+//CORS support
+var allowCrossDomain = function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept");
+  next();
+};
+app.use(allowCrossDomain);
+
+app.use('/', express.static('public'));
+
+app.get('/', (req, res) => {
+	res.sendFile('index.html');
+});
+
+app.get('/twitter/user/search', (req, res) => {
+
+	const username = req.query.username;
+
+	client.get('/users/search', { q: username }, (error, users, response) => {
+		if (error) {
+			res.status(error.code).send({ error });
+		} else {
+			res.status(200).send({ users, response });
+		}
+	});
+});
+
+app.listen(3001, () => {
+	/* eslint-disable no-console */
+	console.log('listening on port 3001...');
+	/* eslint-enable no-console */
+});
