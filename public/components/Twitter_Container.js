@@ -23,7 +23,7 @@ class TwitterContainer extends Component {
       nameToSearch = '';
     }
 
-    // only query Twitter API if user input is two chracters long +
+    // only query Twitter API if user input is two chracters long+
     if (nameToSearch.length >= 2) {
       this.props.searchUsers(nameToSearch);
     } else {
@@ -34,10 +34,10 @@ class TwitterContainer extends Component {
   }
 
   // selectName is the click handler for when user
-  // clicks on one of the search results
+  // clicks on one of the users displayed as a suggestion
   selectName(screen_name) {
     // set value of input tag to the selected user's screen name
-    // this assumes that after the input tag's value is the selected
+    // this assumes that after the input tag's value equals the clicked
     // user's screen name, the enter key would search for that user
     document.querySelector('#userSearch').value = screen_name;
   }
@@ -76,8 +76,5 @@ const mapStateToProps = state => {
   let { matchedUsers } = state.users;
   return { matchedUsers };
 };
-
-
-
 
 export default connect(mapStateToProps, actions)(TwitterContainer);

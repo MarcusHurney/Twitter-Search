@@ -1,5 +1,6 @@
 import React from 'react';
 
+// stateless component where props are destructured as params
 const UserPreview = ({ name, screen_name, profile_image_url, selectName }) => {
   return (
     <li className="matched-user" onClick={() => selectName(`@${screen_name}`)}>
