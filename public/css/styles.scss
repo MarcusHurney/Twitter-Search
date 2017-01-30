@@ -1,17 +1,49 @@
-$green: #00FF00;
-$red: red;
+#root-container {
 
+  .fa-twitter {
+    color: #0084b4;
+  }
+  .screen_name {
+    font-weight: bold;
+  }
+  .name {
+    color: grey;
+  }
 
-.language:hover {
-  color: $green;
-  cursor: pointer;
-  font-size: 2em;
-}
+  input {
+    width: 100%;
+    height: 75px;
+    font-size: 24px;
+    box-shadow: none !important;
+    border: none;
+    border-bottom: 1px dashed grey;
+  }
+  input:focus {
+    outline: none;
+  }
 
-.success {
-  color: $red;
-}
+  #root-list {
+    list-style: none;
 
-.marginTop {
-  margin-top: 10em;
+    .matched-user {
+      margin: 10px 0;
+      padding: 10px;
+
+      ul {
+        list-style: none;
+
+        li {
+          display: inline;
+          margin: 0px 10px;
+        }
+      }
+
+    }
+    .matched-user:hover {
+      transition: all 0.3s ease-in-out;
+      background-color: #D3D3D3;
+      cursor: pointer;
+    }
+  }
+
 }

@@ -5,6 +5,9 @@ export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case types.SEARCH_USERS:
 
+      // the user object contains many properties,
+      // reduce the user object to only contain
+      // name, screen_name, and profile_image_url
       let matchedUsers = action.payload.data.users.reduce((condensedUsers, user) => {
 
         let reducedUser = {};
@@ -17,6 +20,7 @@ export default (state = INITIAL_STATE, action) => {
 
       return { matchedUsers };
 
+    // resets state to clear old results
     case types.CLEAR_MATCHED_USERS:
       return INITIAL_STATE;
 

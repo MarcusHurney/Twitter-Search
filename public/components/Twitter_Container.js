@@ -4,39 +4,42 @@ import * as actions from '../actions';
 import UserPreview from './UserPreview';
 
 class TwitterContainer extends Component {
-  // processInput(userInput) {
-  //   function Name(rawText) {
-  //     this.rawText = rawText;
-  //     this.containsAtSymbol = (this.rawText.indexOf('@') >= 0);
-  //     this.containsSpace = (this.rawText.indexOf(' ') >= 0);
-  //     this.isTwoLong = (this.rawText.length > 0);
-  //   }
-  // }
+
   handleSearch(event) {
     let rawName, nameToSearch;
-    rawName = event.target.value
+    rawName = event.target.value.toLowerCase();
 
-    // if the user input contains a space
-    if (rawName.indexOf(' ') > 1 && rawName.indexOf('@') >= 0) {
-      // grab everything from the @ symbol up to the space
-      nameToSearch = rawName.substr(rawName.indexOf('@') + 1, rawName.indexOf(' '));
-    } else if (rawName.indexOf('@') >= 0) {
-      // does not contain a space, so grab everything after the @ symbol
+    // if the user input contains an @ symbol and a space,
+    // grab everything between @ and the space
+    if (rawName.indexOf('@') >= 0 && rawName.indexOf(' ') >= 0) {
+
+      nameToSearch = rawName.substring(rawName.indexOf('@') + 1, rawName.indexOf(' '));
+
+    } else if (rawName.indexOf('@') >= 0  && rawName.indexOf(' ') < 0) {
+      // no space in user input, so grab everything after the @ symbol
       nameToSearch = rawName.substr(rawName.indexOf('@') + 1);
+
     } else {
       nameToSearch = '';
     }
 
-    // must be longer than 2 characters to trigger results
-    // a space does NOT count as a character
-    if (nameToSearch.length >= 2 && nameToSearch.indexOf(' ') < 0) {
+    // only query Twitter API if user input is two chracters long +
+    if (nameToSearch.length >= 2) {
       this.props.searchUsers(nameToSearch);
-      console.log(nameToSearch);
     } else {
-      // clear matchedUsers until input is valid
+      // clear matchedUsers until input is valid so as
+      // not to show old results
       this.props.clearMatchedUsers();
     }
+  }
 
+  // selectName is the click handler for when user
+  // clicks on one of the search results
+  selectName(screen_name) {
+    // set value of input tag to the selected user's screen name
+    // this assumes that after the input tag's value is the selected
+    // user's screen name, the enter key would search for that user
+    document.querySelector('#userSearch').value = screen_name;
   }
 
   renderMatchedUsers() {
@@ -45,6 +48,7 @@ class TwitterContainer extends Component {
       // pass name, screen_name, user_profile_image **strings**
       return (
         <UserPreview
+          selectName={this.selectName.bind(this)}
           key={screen_name}
           name={name}
           screen_name={screen_name}
@@ -56,11 +60,13 @@ class TwitterContainer extends Component {
 
   render() {
     return (
-      <div>
-        <input onChange={this.handleSearch.bind(this)}></input>
-        <ul>
-          {this.renderMatchedUsers()}
-        </ul>
+      <div id="root-container" className="container">
+        <div className="col-lg-6 offset-lg-3">
+          <input id="userSearch" placeholder='@SproutSocial' onChange={this.handleSearch.bind(this)}></input>
+          <ul id="root-list">
+            {this.renderMatchedUsers()}
+          </ul>
+        </div>
       </div>
     );
   }
