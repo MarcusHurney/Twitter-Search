@@ -45,7 +45,8 @@ class TwitterContainer extends Component {
   renderMatchedUsers() {
     return this.props.matchedUsers.map(user => {
       let { name, screen_name, profile_image_url } = user;
-      // pass name, screen_name, user_profile_image **strings**
+      // name, screen_name, user_profile_image are ** strings **
+      // selectName is a ** function **
       return (
         <UserPreview
           selectName={this.selectName.bind(this)}
